@@ -1,4 +1,9 @@
 {
-  "vue3": "https://github.com/GGLEWO/energise-cli-template.git",
-  "vue2": "https://github.com/GGLEWO/energise-cli-template.git"
+  "vue2": {
+    "url": "https://github.com/GGLEWO/energise-cli-template.git",
+    "moduleArr": [""]
+  },
+  "vue3": {
+    "url": "https://github.com/GGLEWO/energise-cli-template.git"
+  }
 }
