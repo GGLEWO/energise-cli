@@ -1,8 +1,8 @@
 /*
  * @Author: guanyaoming guanyaoming@linklogis.com
  * @Date: 2022-11-10 19:48:01
- * @LastEditors: guanyaoming guanyaoming@linklogis.com
- * @LastEditTime: 2022-12-02 20:18:40
+ * @LastEditors: guanym 1195817329@qq.com
+ * @LastEditTime: 2022-12-03 23:50:56
  * @FilePath: \energise-cli\src\create.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -12,9 +12,9 @@ const download = require("download-git-repo");
 const inquirer = require("inquirer");
 const ora = require("ora");
 const chalk = require("chalk");
-const fs = require("fs");
 const path = require("path");
 const Handlebars = require("handlebars");
+const fse = require("fs-extra");
 
 const handleInitProject = function (answers, targetTemp) {
   // 处理 package.json 文件
@@ -25,7 +25,7 @@ const handleInitProject = function (answers, targetTemp) {
   const content = JSON.stringify(require(packagePath), "", "\t");
   const template = Handlebars.compile(content);
   const result = template(answers);
-  fs.writeFileSync(packagePath, result);
+  fse.outputFile(packagePath, result);
 
   const choicedMoudleLabel = answers.moduleArr.map((e) => e?.label);
 
@@ -37,25 +37,31 @@ const handleInitProject = function (answers, targetTemp) {
   let routerContent = require(routerPath);
   const optionsRoutes = routerContent.optionsRoutes
     .map((e) => {
-      if (choicedMoudleLabel.includes(e.name)) return e;
+      if (choicedMoudleLabel.includes(e.name)) {
+        return JSON.stringify({
+          ...e,
+        });
+      }
     })
     .filter((v) => v);
-  let routeRes = `exports.optionsRoutes = ${JSON.stringify(optionsRoutes)}`;
-  fs.writeFileSync(routerPath, routeRes);
+  console.log(optionsRoutes);
+  // let routeRes = `exports.optionsRoutes = ${optionsRoutes}`;
+  console.log(optionsRoutes, "routeRes");
+  fse.outputJson(routerPath, optionsRoutes);
 
   // 处理 views 文件夹
-  // const targetPath = path.join(path.resolve("./"), `/${answers.name}`);
-  // const targetTempModule = targetTemp.moduleArr;
-  // /**
-  //  * @description: 需要删除的目录
-  //  * @return {*}
-  //  */
-  // let needDelDirList = targetTempModule.filter(
-  //   (e) => !choicedMoudleLabel.includes(e.value.label)
-  // );
-  // needDelDirList.forEach((val) => {
-  //   utils.removeDir(`${targetPath}${val.value.filePath}`);
-  // });
+  const targetPath = path.join(path.resolve("./"), `/${answers.name}`);
+  const targetTempModule = targetTemp.moduleArr;
+  /**
+   * @description: 需要删除的目录
+   * @return {*}
+   */
+  let needDelDirList = targetTempModule.filter(
+    (e) => !choicedMoudleLabel.includes(e.value.label)
+  );
+  needDelDirList.forEach((val) => {
+    utils.removeDir(`${targetPath}${val.value.filePath}`);
+  });
 };
 
 async function main() {
@@ -101,8 +107,8 @@ async function main() {
         { clone: true },
         (err) => {
           if (err) {
-            spinner.fail();
             chalk.red(`项目生成失败：${err}`);
+            spinner.fail();
             return;
           }
           spinner.succeed();
