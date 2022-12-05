@@ -1,5 +1,5 @@
 {
-  "vue2": {
+  "标准版1": {
     "url": "https://github.com/GGLEWO/energise-cli-template.git",
     "moduleArr": [
       {
@@ -29,7 +29,34 @@
       }
     ]
   },
-  "vue3": {
-    "url": "https://github.com/GGLEWO/energise-cli-template.git"
+  "标准版2": {
+    "url": "https://github.com/GGLEWO/energise-cli-template.git",
+    "moduleArr": [
+      {
+        "name": "表单",
+        "value": {
+          "label": "Form",
+          "filePath": "/src/views/form"
+        }
+      }, {
+        "name": "嵌套菜单",
+        "value": {
+          "label": "Nested",
+          "filePath": "/src/views/nested"
+        }
+      }, {
+        "name": "表格",
+        "value": {
+          "label": "Table",
+          "filePath": "/src/views/table"
+        }
+      }, {
+        "name": "树状结构",
+        "value": {
+          "label": "Tree",
+          "filePath": "/src/views/tree"
+        }
+      }
+    ]
   }
 }

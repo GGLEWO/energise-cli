@@ -1,8 +1,8 @@
 /*
  * @Author: guanyaoming guanyaoming@linklogis.com
  * @Date: 2022-11-10 19:48:01
- * @LastEditors: guanym 1195817329@qq.com
- * @LastEditTime: 2022-12-03 23:50:56
+ * @LastEditors: guanyaoming guanyaoming@linklogis.com
+ * @LastEditTime: 2022-12-05 17:06:10
  * @FilePath: \energise-cli\src\create.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -37,17 +37,13 @@ const handleInitProject = function (answers, targetTemp) {
   let routerContent = require(routerPath);
   const optionsRoutes = routerContent.optionsRoutes
     .map((e) => {
-      if (choicedMoudleLabel.includes(e.name)) {
-        return JSON.stringify({
-          ...e,
-        });
-      }
+      if (choicedMoudleLabel.includes(e.name)) return e;
     })
     .filter((v) => v);
-  console.log(optionsRoutes);
-  // let routeRes = `exports.optionsRoutes = ${optionsRoutes}`;
-  console.log(optionsRoutes, "routeRes");
-  fse.outputJson(routerPath, optionsRoutes);
+  fse.writeFile(
+    routerPath,
+    `exports.optionsRoutes = ${JSON.stringify(optionsRoutes, "", "\t")}`
+  );
 
   // 处理 views 文件夹
   const targetPath = path.join(path.resolve("./"), `/${answers.name}`);
@@ -82,9 +78,13 @@ async function main() {
         name: "name",
         message: "请输入项目名称",
         validate: function (val) {
+          if (!/^[a-z0-9-~][a-z0-9-._~]*$/.test(val)) {
+            return "/^[a-z0-9-~][a-z0-9-._~]*$/ 请按该规则创建项目名称";
+          }
           if (val) {
             return true;
           }
+
           return "请输入项目名称";
         },
       },
@@ -102,7 +102,7 @@ async function main() {
       const spinner = ora("项目模板下载中...");
       spinner.start();
       download(
-        `direct:${targetTemp.url}`,
+        `direct:${targetTemp.url}#master-tem`,
         answers.name,
         { clone: true },
         (err) => {
