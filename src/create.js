@@ -2,7 +2,7 @@
  * @Author: guanyaoming guanyaoming@linklogis.com
  * @Date: 2022-11-10 19:48:01
  * @LastEditors: guanyaoming guanyaoming@linklogis.com
- * @LastEditTime: 2022-12-05 20:08:38
+ * @LastEditTime: 2022-12-05 20:19:53
  * @FilePath: \energise-cli\src\create.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -25,7 +25,11 @@ const handleInitProject = function (answers, targetTemp) {
   const content = JSON.stringify(require(packagePath), "", "\t");
   const template = Handlebars.compile(content);
   const result = template(answers);
-  fse.writeFile(packagePath, result);
+  fse.writeFile(packagePath, result, (err) => {
+    if (err) {
+      return console.error(err);
+    }
+  });
 
   const choicedMoudleLabel = answers.moduleArr.map((e) => e?.label);
 
@@ -42,7 +46,12 @@ const handleInitProject = function (answers, targetTemp) {
     .filter((v) => v);
   fse.writeFile(
     routerPath,
-    `exports.optionsRoutes = ${JSON.stringify(optionsRoutes, "", "\t")}`
+    `exports.optionsRoutes = ${JSON.stringify(optionsRoutes, "", "\t")}`,
+    (err) => {
+      if (err) {
+        return console.error(err);
+      }
+    }
   );
 
   // 处理 views 文件夹
