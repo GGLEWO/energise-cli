@@ -9,7 +9,7 @@
     "create": "node bin/www.js create my-template"
   },
   "bin": {
-    "per": "bin/www.js"
+    "energise": "bin/www.js"
   },
   "keywords": [],
   "author": "",
