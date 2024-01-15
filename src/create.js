@@ -197,11 +197,13 @@ async function main() {
           });
           console.log(resultContent, "resultContent 结果");
           (async () => {
-            const clipboardy = await import('clipboardy');
+            const clipboardy = await import("clipboardy");
             clipboardy.default.writeSync(resultContent);
           })();
-          chalk.green(`${answers.option[2].functionName} 函数已经复制到剪切板`);
           spinner.succeed();
+          chalk.bgGreen(
+            `${answers.option[2].functionName} 函数已经复制到剪切板`
+          );
         } catch (e) {
           chalk.red(`代码片段下载失败：${e.message}`);
           spinner.fail();
