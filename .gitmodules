@@ -1,0 +1,3 @@
+[submodule "subModule-test"]
+	path = subModule-test
+	url = https://github.com/GGLEWO/subModule-test.git
