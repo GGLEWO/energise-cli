@@ -118,35 +118,6 @@ async function main() {
           );
           spinner.succeed();
         } catch (e) {
-          chalk.red(`项目生成失败：${err}`);
-          spinner.fail();
-        }
-      });
-  }
-
-  async function handleModuleCase(typeContent) {
-    inquirer
-      .prompt([
-        {
-          name: "option",
-          message: "请选择引入模块",
-          type: "list",
-          choices: typeContent.option,
-        },
-        { name: "outputPath", message: "请输入目标路径" },
-      ])
-      .then(async (answers) => {
-        console.log(answers, answers.option, "answers");
-        const spinner = ora("模块文件下载中...");
-        spinner.start();
-        try {
-          await downloadFolder(
-            answers.option[0],
-            answers.option[1],
-            answers.outputPath
-          );
-          spinner.succeed();
-        } catch (e) {
           chalk.red(`模块文件下载失败：${err}`);
           spinner.fail();
         }
