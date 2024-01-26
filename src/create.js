@@ -104,7 +104,7 @@ async function main() {
           type: "list",
           choices: typeContent.option,
         },
-        { name: "outputPath", message: "请输入目标路径" },
+        { name: "outputPath", message: "请输入目标路径，例如：`src\\utils`" },
       ])
       .then(async (answers) => {
         console.log(answers, answers.option, "answers");
