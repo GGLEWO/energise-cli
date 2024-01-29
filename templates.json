@@ -33,11 +33,11 @@
       },
       {
         "name": "表格组件封装模块",
-        "value": "https://www.github.com/example/CFile" 
+        "value": ["GGLEWO/energise-cli-template", "src/components/icf-table"] 
       },
       {
-        "name": "表单组件封装模块",
-        "value": "https://www.github.com/example/DFile" 
+        "name": "表格页面应用",
+        "value": ["GGLEWO/energise-cli-template", "src/module/tableExample"] 
       }
     ]
   },
